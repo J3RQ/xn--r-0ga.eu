@@ -3,10 +3,29 @@
 
 body {
     background-image: url('img/örEU.jpg');
-    background-size:cover;
+    background-size: cover;
     background-repeat: no-repeat, round;
     background-position: center;
     background-position-y: 60px;
+    text-align: center;
   }
 
-.testdiv { background-color: rgb(255, 240, 89); } 
+.testdiv {
+	background-color: rgb(255, 240, 89);
+}
+
+.header {
+	background-color: #FBFF00;
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}
+
+.sivut {
+    font-style: oblique;
+    font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+    font-weight: 800;
+    font-size: large;
+    text-align: center;
+}
