@@ -3,7 +3,10 @@
 
 body {
     background-image: url('img/örEU.jpg');
-    background-size:contain;
+    background-size:cover;
+    background-repeat: no-repeat, round;
+    background-position: center;
+    background-position-y: 60px;
   }
 
 .testdiv { background-color: rgb(255, 240, 89); } 
