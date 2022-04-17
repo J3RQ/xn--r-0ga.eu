@@ -2,20 +2,17 @@
 /* CSS Document */
 
 body {
-    background-image: url('img/örbg_compressed.png');
-    background-size: cover;
-    background-repeat: no-repeat, round;
-    background-position: center;
-    background-position-y: 60px;
-    background-color: rgb(255, 53, 71);
+  background-size: cover;
+  background-repeat: no-repeat, round;
+  background-position: center;
+  background-position-y: 60px;
+  background-color: rgb(29, 29, 29);
+  color: rgb(233, 245, 255)
   }
 
-.testdiv {
-	background-color: rgb(255, 53, 71);
-}
 
 .header {
-	background-color: #8f32ff;
+	background-color: #050505;
 	padding: 10px;
 	margin-left: auto;
 	margin-right: auto;
@@ -23,14 +20,28 @@ body {
 }
 
 .sivut {
-    font-style: oblique;
-    font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
-    font-weight: 800;
-    font-size: large;
-    text-align: center;
+  font-style: oblique;
+  font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+  font-weight: 800;
+  font-size: large;
+  text-align: center;
+  color: rgb(233, 245, 255);
 }
+
+.sivu {
+  color: rgb(233, 245, 255);
+}
+
 
 .tseteli {
-  border: 5px solid #8f32ff;
+  border: 5px solid rgb(255, 53, 71);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 35%;
+  margin-top: 10px;
 }
 
+.sivunhajotus {
+  text-align: center;
+}
