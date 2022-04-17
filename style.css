@@ -2,19 +2,20 @@
 /* CSS Document */
 
 body {
-    background-image: url('img/örEU.jpg');
+    background-image: url('img/örbg.png');
     background-size: cover;
     background-repeat: no-repeat, round;
     background-position: center;
     background-position-y: 60px;
+    background-color: rgb(255, 53, 71);
   }
 
 .testdiv {
-	background-color: rgb(255, 240, 89);
+	background-color: rgb(255, 53, 71);
 }
 
 .header {
-	background-color: #FBFF00;
+	background-color: #8f32ff;
 	padding: 10px;
 	margin-left: auto;
 	margin-right: auto;
@@ -28,3 +29,8 @@ body {
     font-size: large;
     text-align: center;
 }
+
+.tseteli {
+  border: 5px solid #8f32ff;
+}
+
