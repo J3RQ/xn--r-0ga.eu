@@ -1,3 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 
+body {
+    background-image: url('img/örEU.jpg');
+    background-size:contain;
+  }
+
+.testdiv { background-color: rgb(255, 240, 89); } 
