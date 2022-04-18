@@ -5,7 +5,7 @@ body {
   background-repeat: no-repeat, round;
   background-position: center;
   background-position-y: 60px;
-	background: linear-gradient(100deg, #d50000, #c7d500, #14d500, #00aed5, #002ad5, #ca00d5, #d50082);
+	background: linear-gradient(100deg, #d50000, #c7d500, #14d500, #00aed5, #002ad5, #d50082);
     background-size: 1400% 1400%;
 
     -webkit-animation: AnimationName 20s ease infinite;
