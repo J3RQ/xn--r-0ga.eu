@@ -1,0 +1,3 @@
+function buttonalert() {   
+    alert("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");  
+}
