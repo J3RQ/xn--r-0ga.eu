@@ -2,24 +2,62 @@ function buttonalert() {
     alert("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
 }
 
-
 function nyssestops(userinput) {
+    let stoprequest
+    const timestamp = Math.round(Date.now() / 1000);
+
     switch (isNaN(userinput)) {
         case false:
-            stoprequest = `{"test": "test"}`;
+        stoprequest = `query {
+            stop(id: "tampere:${userinput}") {
+                name
+                gtfsId
+                stoptimesWithoutPatterns(numberOfDepartures: 16, startTime: ${timestamp}, omitNonPickups: true, timeRange: 10800) {
+                    scheduledArrival
+                    realtimeArrival
+                    arrivalDelay
+                    scheduledDeparture
+                    realtimeDeparture
+                    departureDelay
+                    realtime
+                    realtimeState
+                    serviceDay
+                    headsign
+                    timepoint
+                    stopSequence
+                    pickupType
+                    trip {
+                        route {
+                            shortName
+                            longName
+                            }
+                        }
+                    }      
+                }   
+            }`;
             break;
         case true:
-            stoprequest = `{"test": "test1"}`;
-            break;
+        stoprequest = `query {
+            stops(name: "${userinput}") {
+                name
+                gtfsId
+                lat
+                lon
+                code
+                }     
+            }`;
+        break;
         default:
             stoprequest = undefined;
         }
     
     let stopreq = new XMLHttpRequest();
     stopreq.open("POST", "https://api.digitransit.fi/routing/v1/routers/waltti/index/graphql");
+    stopreq.setRequestHeader("Content-Type", "application/json");
+    var finalquery = JSON.stringify({"query": stoprequest})
 
-    stopreq.send(stoprequest);
+    stopreq.send(finalquery);
 
-    stopreq.onload = () => console.log(xhr.responseText);
+    stopreq.onload = () => console.log(stopreq.responseText);
 
 }
