@@ -4,10 +4,12 @@ function buttonalert() {
 
 function nyssestops(userinput) {
     let stoprequest
+    let querymode 
     const timestamp = Math.round(Date.now() / 1000);
 
     switch (isNaN(userinput)) {
         case false:
+        querymode = "ID";
         stoprequest = `query {
             stop(id: "tampere:${userinput}") {
                 name
@@ -37,6 +39,7 @@ function nyssestops(userinput) {
             }`;
             break;
         case true:
+        querymode = "NAME";
         stoprequest = `query {
             stops(name: "${userinput}") {
                 name
@@ -48,6 +51,7 @@ function nyssestops(userinput) {
             }`;
         break;
         default:
+            querymode = undefined;
             stoprequest = undefined;
         }
     
@@ -58,6 +62,15 @@ function nyssestops(userinput) {
 
     stopreq.send(finalquery);
 
-    stopreq.onload = () => console.log(stopreq.responseText);
+    stopreq.onload = () => {stopreq.responseText;
+    const stopJSON = JSON.parse(stopreq.responseText);
+
+    if (querymode == "ID") {
+        console.log(stopJSON["data"]["stop"]["name"]);
+    } else {
+        
+    }
+
+    }
 
 }
