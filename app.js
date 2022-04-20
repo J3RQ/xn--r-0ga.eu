@@ -2,16 +2,35 @@ function buttonalert() {
     alert("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
 }
 
-function nyssestops(userinput) {
+function timereplace() {
+    var d = new Date();
+    var timeinput = d.toLocaleTimeString().split(":");
+    var pretime = `${timeinput[0]}:${timeinput[1]}`
+    document.getElementById("time-input").value = pretime;
+    document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+}
+
+function nyssestops(stopinput, timeinput, dateinput, lineinput) {
+    console.log(stopinput, timeinput, dateinput, lineinput);
     let stoprequest
     let querymode
-    const timestamp = Math.round(Date.now() / 1000);
+    let timestamp
 
-    switch (isNaN(userinput)) {
+    let timesplit = timeinput.split(":")
+    let datesplit = dateinput.split("-")
+    
+    timestamp = Math.round(new Date(datesplit[0], datesplit[1] - 1, datesplit[2], timesplit[0], timesplit[1]).getTime() / 1000)
+
+    console.log(timestamp)
+  
+    //timestamp = Math.round(Date.now() / 1000);
+        
+
+    switch (isNaN(stopinput)) {
         case false:
             querymode = "ID";
             stoprequest = `query {
-            stop(id: "tampere:${userinput}") {
+            stop(id: "tampere:${stopinput}") {
                 name
                 gtfsId
                 stoptimesWithoutPatterns(numberOfDepartures: 16, startTime: ${timestamp}, omitNonPickups: true, timeRange: 10800) {
@@ -41,7 +60,7 @@ function nyssestops(userinput) {
         case true:
             querymode = "NAME";
             stoprequest = `query {
-            stops(name: "${userinput}") {
+            stops(name: "${stopinput}") {
                 name
                 gtfsId
                 lat

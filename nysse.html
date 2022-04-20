@@ -29,7 +29,18 @@
 	
 		<p>Get Nysse traffic from a particular stop:</p>
 			<input type="text" id="stop-input" name="stop-input" placeholder="Stop name or ID here..." class="inputfield"><br>
-			<button onclick = "nyssestops(document.getElementById('stop-input').value)" value="submit" class="JSbutton">Submit</button>
+			<input type="time" id="time-input" name="stop-input" class="inputfield" onload="timereplace()">
+			<input type="date" id="date-input" name="stop-input" class="inputfield" onload="timereplace()"><br>
+			<input type="text" id="line-input" name="stop-input" placeholder="Limit lines (Comma separated)" class="inputfield"><br>
+			<button onclick = "nyssestops(document.getElementById('stop-input').value, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)" value="submit" class="JSbutton">Submit</button>
+
+			<script type="text/javascript">
+				var d = new Date();
+				var timeinput = d.toLocaleTimeString().split(":");
+				var pretime = `${timeinput[0]}:${timeinput[1]}`
+				document.getElementById("time-input").value = pretime;
+				document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+			</script>
 	</div>
 	
 </body>
