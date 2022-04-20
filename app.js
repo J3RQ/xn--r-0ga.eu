@@ -70,7 +70,7 @@ function nyssestops(userinput) {
             d = Number(d);
             var h = Math.floor(d / 3600);
             var m = Math.floor(d % 3600 / 60);
-            
+
             finalh = ""
             switch (h.toString().length < 2) {
                 case true:
@@ -94,47 +94,79 @@ function nyssestops(userinput) {
         }
 
         if (querymode == "ID") {
-            var resultdiv = document.createElement("div");
+            var element = document.getElementById("timetablediv");
+            if (typeof (element) != 'undefined' && element != null) {
+                var resultdiv = document.getElementById("timetablediv");
+            } else {
+                var resultdiv = document.createElement("div");
+            }
             resultdiv.setAttribute("id", "timetablediv")
             resultdiv.setAttribute("class", "textdiv")
             let htmlcontent = ""
-            let arrivalJSON = stopJSON["data"]["stop"]["stoptimesWithoutPatterns"];
-            for (const busJSON in arrivalJSON) {
-                let base = arrivalJSON[busJSON];
-                let destination = base["headsign"]
-                let line = base["trip"]["route"]["shortName"]
-                let timepoint = base["timepoint"]
-                let arrtime
-                let deptime
-                switch (base["realtimeArrival"] < 86400) {
-                    case true:
-                        arrtime = secondsToTime(base["realtimeArrival"])
-                        break;
-                    case false:
-                        arrtime = secondsToTime(base["realtimeArrival"] - 86400)
-                        break;
-                    default:
-                        arrtime = secondsToTime(0)
-                }
-                switch (base["realtimeDeparture"] < 86400) {
-                    case true:
-                        deptime = secondsToTime(base["realtimeDeparture"])
-                        break;
-                    case false:
-                        deptime = secondsToTime(base["realtimeDeparture"] - 86400)
-                        break;
-                    default:
-                        deptime = secondsToTime(0)
-                }
-                base["realtimeDeparture"]
-                let realtime = base["realtimeState"]
+            htmlcontent += `<strong>${stopJSON["data"]["stop"]["name"]}</strong><br><br>`
+            if (stopJSON["data"]["stop"] != null) {
+                let arrivalJSON = stopJSON["data"]["stop"]["stoptimesWithoutPatterns"];
+                for (const busJSON in arrivalJSON) {
+                    let base = arrivalJSON[busJSON];
+                    let destination = base["headsign"];
+                    let line = base["trip"]["route"]["shortName"];
+                    let timepoint = base["timepoint"];
+                    let arrtime;
+                    let deptime;
+                    switch (base["realtimeArrival"] < 86400) {
+                        case true:
+                            arrtime = secondsToTime(base["realtimeArrival"]);
+                            break;
+                        case false:
+                            arrtime = secondsToTime(base["realtimeArrival"] - 86400);
+                            break;
+                        default:
+                            arrtime = secondsToTime(0);
+                    }
+                    switch (base["realtimeDeparture"] < 86400) {
+                        case true:
+                            deptime = secondsToTime(base["realtimeDeparture"]);
+                            break;
+                        case false:
+                            deptime = secondsToTime(base["realtimeDeparture"] - 86400);
+                            break;
+                        default:
+                            deptime = secondsToTime(0);
+                    }
+                    base["realtimeDeparture"];
+                    let realtime = base["realtimeState"];
 
-                htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`
-                
+                    htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
+
+                }
+            } else {
+                htmlcontent = "That stop doesn't exist.";
             }
-            resultdiv.innerHTML = htmlcontent
+            resultdiv.innerHTML = htmlcontent;
             document.body.appendChild(resultdiv);
+
         } else if (querymode == "NAME") {
+            var element = document.getElementById("timetablediv");
+            if (typeof (element) != 'undefined' && element != null) {
+                var resultdiv = document.getElementById("timetablediv");
+            } else {
+                var resultdiv = document.createElement("div");
+            }
+            resultdiv.setAttribute("id", "timetablediv");
+            resultdiv.setAttribute("class", "textdiv");
+            let htmlcontent = ""
+            console.log(stopJSON["data"]["stops"])
+            if (stopJSON["data"]["stops"].length > 0) {
+                for (const stopOBJ in stopJSON["data"]["stops"]) {
+                    if (stopJSON["data"]["stops"][stopOBJ]["gtfsId"].includes("tampere")) {
+                        htmlcontent += `Name: ${stopJSON["data"]["stops"][stopOBJ]["name"]}<br>ID: ${stopJSON["data"]["stops"][stopOBJ]["code"]}<br><br>`;
+                    }
+                }
+            } else {
+                htmlcontent = "No results found.";
+            }
+            resultdiv.innerHTML = htmlcontent;
+            document.body.appendChild(resultdiv);
 
         }
 
