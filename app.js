@@ -11,7 +11,7 @@ function timereplace() {
 }
 
 function nyssestops(stopinput, timeinput, dateinput, lineinput) {
-    console.log(stopinput, timeinput, dateinput, lineinput);
+  
     let stoprequest
     let querymode
     let timestamp
@@ -21,10 +21,6 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
     
     timestamp = Math.round(new Date(datesplit[0], datesplit[1] - 1, datesplit[2], timesplit[0], timesplit[1]).getTime() / 1000)
 
-    console.log(timestamp)
-  
-    //timestamp = Math.round(Date.now() / 1000);
-        
 
     switch (isNaN(stopinput)) {
         case false:
@@ -122,8 +118,8 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             resultdiv.setAttribute("id", "timetablediv")
             resultdiv.setAttribute("class", "textdiv")
             let htmlcontent = ""
-            htmlcontent += `<strong>${stopJSON["data"]["stop"]["name"]}</strong><br><br>`
             if (stopJSON["data"]["stop"] != null) {
+                htmlcontent += `<strong>${stopJSON["data"]["stop"]["name"]}</strong><br><br>`
                 let arrivalJSON = stopJSON["data"]["stop"]["stoptimesWithoutPatterns"];
                 for (const busJSON in arrivalJSON) {
                     let base = arrivalJSON[busJSON];
@@ -174,7 +170,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             resultdiv.setAttribute("id", "timetablediv");
             resultdiv.setAttribute("class", "textdiv");
             let htmlcontent = ""
-            console.log(stopJSON["data"]["stops"])
+      
             if (stopJSON["data"]["stops"].length > 0) {
                 for (const stopOBJ in stopJSON["data"]["stops"]) {
                     if (stopJSON["data"]["stops"][stopOBJ]["gtfsId"].includes("tampere")) {
