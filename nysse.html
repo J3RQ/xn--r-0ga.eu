@@ -35,11 +35,15 @@
 			<button onclick = "nyssestops(document.getElementById('stop-input').value, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)" value="submit" class="JSbutton">Submit</button>
 
 			<script type="text/javascript">
+				function addZero(i) {
+					if (i < 10) {i = "0" + i}
+					return i;
+				}
 				var d = new Date();
-				var timeinput = d.toLocaleTimeString().split(":");
-				var pretime = `${timeinput[0]}:${timeinput[1]}`;
-				document.getElementById("time-input").value = pretime;
+				document.getElementById("time-input").value = addZero(d.getHours()) + ":" + addZero(d.getMinutes());
 				document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+				console.log(addZero(d.getHours()) + ":" + addZero(d.getMinutes()));
+
 			</script>
 	</div>
 	
