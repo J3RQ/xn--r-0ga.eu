@@ -86,27 +86,14 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             var h = Math.floor(d / 3600);
             var m = Math.floor(d % 3600 / 60);
 
-            finalh = ""
-            switch (h.toString().length < 2) {
-                case true:
-                    finalh = `0${h}`
-                    break;
-                case false:
-                    finalh = h
-                    break;
-            }
-            finalm = ""
-            switch (m.toString().length < 2) {
-                case true:
-                    finalm = `0${m}`
-                    break;
-                case false:
-                    finalm = m
-                    break;
+            function addZero(i) {
+                if (i < 10) {i = "0" + i}
+                return i;
             }
 
-            return `${finalh}:${finalm}`
+            return addZero(`${addZero(h)}:${addZero(m)}`)
         }
+
 
         if (querymode == "ID") {
             var element = document.getElementById("timetablediv");
@@ -126,30 +113,14 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                     let destination = base["headsign"];
                     let line = base["trip"]["route"]["shortName"];
                     let timepoint = base["timepoint"];
-                    let arrtime;
-                    let deptime;
-                    switch (base["realtimeArrival"] < 86400) {
-                        case true:
-                            arrtime = secondsToTime(base["realtimeArrival"]);
-                            break;
-                        case false:
-                            arrtime = secondsToTime(base["realtimeArrival"] - 86400);
-                            break;
-                        default:
-                            arrtime = secondsToTime(0);
+        
+                    function secondformatter(sec) {
+                        if (sec > 86400) {sec = sec - 86400}
+					    return sec;
                     }
-                    switch (base["realtimeDeparture"] < 86400) {
-                        case true:
-                            deptime = secondsToTime(base["realtimeDeparture"]);
-                            break;
-                        case false:
-                            deptime = secondsToTime(base["realtimeDeparture"] - 86400);
-                            break;
-                        default:
-                            deptime = secondsToTime(0);
-                    }
-                    base["realtimeDeparture"];
-                    let realtime = base["realtimeState"];
+
+                    let arrtime = secondsToTime(secondformatter(base["realtimeArrival"]))
+                    let deptime = secondsToTime(secondformatter(base["realtimeDeparture"]))
 
                     htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
 
