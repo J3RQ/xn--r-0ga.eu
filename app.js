@@ -177,6 +177,9 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                         htmlcontent += `Name: ${stopJSON["data"]["stops"][stopOBJ]["name"]}<br>ID: ${stopJSON["data"]["stops"][stopOBJ]["code"]}<br><br>`;
                     }
                 }
+                if (htmlcontent.length == 0) {
+                    htmlcontent += "No results found.";
+                }
             } else {
                 htmlcontent = "No results found.";
             }
