@@ -11,14 +11,18 @@ function timereplace() {
 }
 
 function nyssestops(stopinput, timeinput, dateinput, lineinput) {
-  
+
+    const lineregex = lineinput.match(/[\da-zA-Z]+/g);
+
+    console.log(lineregex);
+
     let stoprequest
     let querymode
     let timestamp
 
     let timesplit = timeinput.split(":")
     let datesplit = dateinput.split("-")
-    
+
     timestamp = Math.round(new Date(datesplit[0], datesplit[1] - 1, datesplit[2], timesplit[0], timesplit[1]).getTime() / 1000)
 
 
@@ -87,7 +91,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             var m = Math.floor(d % 3600 / 60);
 
             function addZero(i) {
-                if (i < 10) {i = "0" + i}
+                if (i < 10) { i = "0" + i }
                 return i;
             }
 
@@ -113,16 +117,23 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                     let destination = base["headsign"];
                     let line = base["trip"]["route"]["shortName"];
                     let timepoint = base["timepoint"];
-        
+
                     function secondformatter(sec) {
-                        if (sec > 86400) {sec = sec - 86400}
-					    return sec;
+                        if (sec > 86400) { sec = sec - 86400 }
+                        return sec;
                     }
 
                     let arrtime = secondsToTime(secondformatter(base["realtimeArrival"]))
                     let deptime = secondsToTime(secondformatter(base["realtimeDeparture"]))
 
-                    htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
+                    if (lineregex == null) {
+                        htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
+                    } else if (lineregex != null) {
+                        if (lineregex.includes(line)) {
+                            htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
+                        }
+                    }
+
 
                 }
             } else {
@@ -141,7 +152,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             resultdiv.setAttribute("id", "timetablediv");
             resultdiv.setAttribute("class", "textdiv");
             let htmlcontent = ""
-      
+
             if (stopJSON["data"]["stops"].length > 0) {
                 for (const stopOBJ in stopJSON["data"]["stops"]) {
                     if (stopJSON["data"]["stops"][stopOBJ]["gtfsId"].includes("tampere")) {
