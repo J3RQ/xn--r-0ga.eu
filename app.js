@@ -11,10 +11,17 @@ function timereplace() {
 }
 
 function nyssestops(stopinput, timeinput, dateinput, lineinput) {
+    console.log(stopinput)
 
     const lineregex = lineinput.match(/[\da-zA-Z]+/g);
 
-    console.log(lineregex);
+    let queryamount
+
+    if (lineregex == null) {
+        queryamount = "20"
+    } else if (lineregex != null){
+        queryamount = "40"
+    }
 
     let stoprequest
     let querymode
@@ -28,25 +35,23 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
 
     switch (isNaN(stopinput)) {
         case false:
+            let stopquery = ""
+            if (stopinput.length > 3) {
+                stopquery = stopinput
+            } else if(stopquery < 4){
+                stopquery = "0" + stopinput.toString()
+            }
             querymode = "ID";
             stoprequest = `query {
-            stop(id: "tampere:${stopinput}") {
+            stop(id: "tampere:${stopquery}") {
                 name
                 gtfsId
-                stoptimesWithoutPatterns(numberOfDepartures: 16, startTime: ${timestamp}, omitNonPickups: true, timeRange: 10800) {
-                    scheduledArrival
+                stoptimesWithoutPatterns(numberOfDepartures: ${queryamount}, startTime: ${timestamp}, omitNonPickups: true, timeRange: 10800) {
                     realtimeArrival
-                    arrivalDelay
-                    scheduledDeparture
                     realtimeDeparture
-                    departureDelay
                     realtime
-                    realtimeState
-                    serviceDay
                     headsign
                     timepoint
-                    stopSequence
-                    pickupType
                     trip {
                         route {
                             shortName
@@ -156,7 +161,9 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             if (stopJSON["data"]["stops"].length > 0) {
                 for (const stopOBJ in stopJSON["data"]["stops"]) {
                     if (stopJSON["data"]["stops"][stopOBJ]["gtfsId"].includes("tampere")) {
-                        htmlcontent += `Name: ${stopJSON["data"]["stops"][stopOBJ]["name"]}<br>ID: ${stopJSON["data"]["stops"][stopOBJ]["code"]}<br><br>`;
+                        let stopid = stopJSON["data"]["stops"][stopOBJ]["code"].toString()
+                        htmlcontent += `Name: ${stopJSON["data"]["stops"][stopOBJ]["name"]}<br>ID: ${stopid}<br><br>`;
+                        htmlcontent += `<button onclick = "nyssestops(${stopid}, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)" value="submit" class="selectbutton">Choose stop</button><br><br>`;
                     }
                 }
                 if (htmlcontent.length == 0) {
