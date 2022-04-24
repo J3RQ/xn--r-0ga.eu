@@ -11,7 +11,6 @@ function timereplace() {
 }
 
 function nyssestops(stopinput, timeinput, dateinput, lineinput) {
-    console.log(stopinput)
 
     const lineregex = lineinput.match(/[\da-zA-Z]+/g);
 
@@ -19,7 +18,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
 
     if (lineregex == null) {
         queryamount = "20"
-    } else if (lineregex != null){
+    } else if (lineregex != null) {
         queryamount = "40"
     }
 
@@ -35,15 +34,13 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
 
     switch (isNaN(stopinput)) {
         case false:
-            let stopquery = ""
-            if (stopinput.length > 3) {
-                stopquery = stopinput
-            } else if(stopquery < 4){
-                stopquery = "0" + stopinput.toString()
+            let reqID = stopinput.toString()
+            if (reqID.length < 4) {
+                reqID = "0".repeat(4-reqID.length) + reqID
             }
             querymode = "ID";
             stoprequest = `query {
-            stop(id: "tampere:${stopquery}") {
+            stop(id: "tampere:${reqID}") {
                 name
                 gtfsId
                 stoptimesWithoutPatterns(numberOfDepartures: ${queryamount}, startTime: ${timestamp}, omitNonPickups: true, timeRange: 10800) {
