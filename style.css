@@ -271,3 +271,17 @@ input[type=select] {
   opacity: 1;
   color: #fff;
 }
+
+body::-webkit-scrollbar {
+  width: 12px;              
+}
+
+body::-webkit-scrollbar-track {
+  background: #353535;        
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #fff;   
+  border-radius: 20px;       
+  border: 3px solid #353535;  
+}

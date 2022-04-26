@@ -36,7 +36,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
         case false:
             let reqID = stopinput.toString()
             if (reqID.length < 4) {
-                reqID = "0".repeat(4-reqID.length) + reqID
+                reqID = "0".repeat(4 - reqID.length) + reqID
             }
             querymode = "ID";
             stoprequest = `query {
@@ -97,7 +97,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                 return i;
             }
 
-            return addZero(`${addZero(h)}:${addZero(m)}`)
+            return `${addZero(h)}:${addZero(m)}`
         }
 
 
@@ -135,8 +135,6 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                             htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
                         }
                     }
-
-
                 }
             } else {
                 htmlcontent = "That stop doesn't exist.";
