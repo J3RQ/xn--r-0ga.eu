@@ -10,6 +10,11 @@ function timereplace() {
     document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
 }
 
+function addZero(i) {
+    if (i < 10) { i = "0" + i }
+    return i;
+}
+
 function nyssestops(stopinput, timeinput, dateinput, lineinput) {
 
     const lineregex = lineinput.match(/[\da-zA-Z]+/g);
@@ -21,6 +26,11 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
     } else if (lineregex != null) {
         queryamount = "40"
     }
+
+    localStorage.removeItem('stopQuery');
+    localStorage.removeItem('lineLimit');
+    localStorage.setItem('stopQuery', addZero(stopinput));
+    localStorage.setItem('lineLimit', lineinput);
 
     let stoprequest
     let querymode
@@ -92,11 +102,6 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             var h = Math.floor(d / 3600);
             var m = Math.floor(d % 3600 / 60);
 
-            function addZero(i) {
-                if (i < 10) { i = "0" + i }
-                return i;
-            }
-
             return `${addZero(h)}:${addZero(m)}`
         }
 
@@ -129,10 +134,10 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                     let deptime = secondsToTime(secondformatter(base["realtimeDeparture"]))
 
                     if (lineregex == null) {
-                        htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
+                        htmlcontent += `${line} ${destination}<br>${arrtime} → ${deptime}<br><br>`;
                     } else if (lineregex != null) {
                         if (lineregex.includes(line)) {
-                            htmlcontent += `Line: ${line}<br>Destination: ${destination}<br>Arrival: ${arrtime}<br>Departure: ${deptime}<br><br>`;
+                            htmlcontent += `${line} ${destination}<br>${arrtime} → ${deptime}<br><br>`;
                         }
                     }
                 }

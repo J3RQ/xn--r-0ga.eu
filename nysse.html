@@ -42,6 +42,15 @@
 				var d = new Date();
 				document.getElementById("time-input").value = addZero(d.getHours()) + ":" + addZero(d.getMinutes());
 				document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+				let stopID = localStorage.getItem('stopQuery');
+				if (stopID != null) {
+					document.getElementById("stop-input").value = stopID 
+				}
+				let lineLimit = localStorage.getItem('lineLimit')
+				if (lineLimit != null) {
+					document.getElementById("line-input").value = lineLimit 
+				}
+
 			</script>
 	</div>
 	
