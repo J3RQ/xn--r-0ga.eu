@@ -272,6 +272,16 @@ input[type=select] {
   color: #fff;
 }
 
+.textbox {
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 18%;
+  margin: auto;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
 body::-webkit-scrollbar {
   width: 12px;              
 }

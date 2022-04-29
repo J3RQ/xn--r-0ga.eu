@@ -1,58 +1,76 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nysse</title>
-<link rel="icon" type="image/x-icon" href="img/favicon.ico">
-<link href="style.css" rel="stylesheet">
-<script src="app.js" type="text/javascript"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Nysse</title>
+	<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+	<link href="style.css" rel="stylesheet">
+	<script src="app.js" type="text/javascript"></script>
 </head>
 
 <body id="nyssebody">
-	
+
 	<div class="header">
-	
+
 		<div class="sivut">
-			
-			<a href="index.html" class="sivu"><button class="bn632-hover bn25">Ör</button></a><a href="nysse.html" class="sivu"><button class="bn632-hover bn25">Nysse</button></a><a href="trolli2.html" class="sivu"><button class="bn632-hover bn25">Ör</button></a><a href="trolli3.html" class="sivu"><button class="bn632-hover bn25">Ör</button></a>
-		
-		
-		
-		
-		
+
+			<a href="index.html" class="sivu"><button class="bn632-hover bn25">Ör</button></a><a href="nysse.html"
+				class="sivu"><button class="bn632-hover bn25">Nysse</button></a><a href="trolli2.html"
+				class="sivu"><button class="bn632-hover bn25">Ör</button></a><a href="trolli3.html" class="sivu"><button
+					class="bn632-hover bn25">Ör</button></a>
+
+
+
+
+
 		</div>
-	
+
 	</div>
 
 	<div class="sivunhajotus">
-	
+
 		<p>Get Nysse traffic from a particular stop:</p>
-			<input type="text" id="stop-input" name="stop-input" placeholder="Stop name or ID here..." class="inputfield"><br>
-			<input type="time" id="time-input" name="stop-input" class="inputfield" onload="timereplace()">
-			<input type="date" id="date-input" name="stop-input" class="inputfield" onload="timereplace()"><br>
-			<input type="text" id="line-input" name="stop-input" placeholder="Limit lines (Comma separated)" class="inputfield"><br>
-			<button onclick = "nyssestops(document.getElementById('stop-input').value, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)" value="submit" class="JSbutton">Submit</button>
+		<input type="text" id="stop-input" name="stop-input" placeholder="Stop name or ID here..."
+			class="inputfield"><br>
+		<input type="time" id="time-input" name="stop-input" class="inputfield" onload="timereplace()">
+		<input type="date" id="date-input" name="stop-input" class="inputfield" onload="timereplace()"><br>
+		<input type="text" id="line-input" name="stop-input" placeholder="Limit lines (Comma separated)"
+			class="inputfield"><br>
+		<fieldset class="textbox">
+			<legend>Save query?</legend>
+			<input type="checkbox" id="cacheoption" name="cacheoption" checked>
+		</fieldset>
+		<button
+			onclick="nyssestops(document.getElementById('stop-input').value, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)"
+			value="submit" class="JSbutton">Submit</button>
 
-			<script type="text/javascript">
-				function addZero(i) {
-					if (i < 10) {i = "0" + i}
-					return i;
-				}
-				var d = new Date();
-				document.getElementById("time-input").value = addZero(d.getHours()) + ":" + addZero(d.getMinutes());
-				document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
-				let stopID = localStorage.getItem('stopQuery');
-				if (stopID != null) {
-					document.getElementById("stop-input").value = stopID 
-				}
-				let lineLimit = localStorage.getItem('lineLimit')
-				if (lineLimit != null) {
-					document.getElementById("line-input").value = lineLimit 
-				}
+		<script type="text/javascript">
+			function addZero(i) {
+				if (i < 10) { i = "0" + i }
+				return i;
+			}
+			var d = new Date();
+			document.getElementById("time-input").value = addZero(d.getHours()) + ":" + addZero(d.getMinutes());
+			document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+			let stopID = localStorage.getItem('stopQuery');
+			if (stopID != null) {
+				document.getElementById("stop-input").value = stopID;
+			}
+			let lineLimit = localStorage.getItem('lineLimit');
+			if (lineLimit != null) {
+				document.getElementById("line-input").value = lineLimit;
+			}
+			let cache = localStorage.getItem("cache");
+			if (cache != null) {
+				let cacheBool = (cache === 'true');
+				document.getElementById("cacheoption").checked = cacheBool;
+			}
 
-			</script>
+		</script>
 	</div>
-	
+
 </body>
+
 </html>

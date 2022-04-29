@@ -27,11 +27,14 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
         queryamount = "40"
     }
 
-    localStorage.removeItem('stopQuery');
-    localStorage.removeItem('lineLimit');
-    localStorage.setItem('stopQuery', addZero(stopinput));
-    localStorage.setItem('lineLimit', lineinput);
-
+    let cacheoption = document.getElementById("cacheoption").checked;
+        localStorage.setItem('cache', cacheoption)
+    
+    if (cacheoption == true) {
+        localStorage.setItem('stopQuery', addZero(stopinput));
+        localStorage.setItem('lineLimit', lineinput);
+    }
+    
     let stoprequest
     let querymode
     let timestamp
