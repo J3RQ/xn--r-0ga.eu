@@ -183,3 +183,50 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
     }
 
 }
+
+
+function trainstops() {
+    let stationrequest
+
+    stationrequest = `{
+        stations(where: {passengerTraffic: {equals: true}}) {
+          shortCode
+          name
+          passengerTraffic
+        }
+    }`
+
+    let stationXHR = new XMLHttpRequest();
+    stationXHR.open("POST", "https://rata.digitraffic.fi/api/v2/graphql/graphql");
+    stationXHR.setRequestHeader("Content-Type", "application/json");
+    var finalXHR = JSON.stringify({ "query": stationrequest })
+
+    stationXHR.send(finalXHR);
+
+    stationXHR.onload = () => {
+        stationXHR.responseText;
+        const stationJSON = JSON.parse(stationXHR.responseText);
+        console.log(stationJSON)
+
+        var element1 = document.getElementById("selector1");
+        var element2 = document.getElementById("selector2");
+
+
+        for (stops in stationJSON['data']['stations']) {
+            var option = document.createElement("option");
+            option.text = `${stationJSON['data']['stations'][stops]['name']}`.replace("_"," ");
+            option.value = stationJSON['data']['stations'][stops]['shortCode']
+            element1.add(option)
+        }       
+        for (stops in stationJSON['data']['stations']) {
+            var option = document.createElement("option");
+            option.text = `${stationJSON['data']['stations'][stops]['name']}`.replace("_"," ");
+            option.value = stationJSON['data']['stations'][stops]['shortCode']
+            element2.add(option)
+        }
+    }
+}
+
+function ticketsearch(a, b, c, d, e) {
+    console.log(a, b, c, d, e)
+}
