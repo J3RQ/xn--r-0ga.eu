@@ -4,13 +4,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Nysse</title>
+	<title>VR</title>
 	<link rel="icon" type="image/x-icon" href="img/favicon.ico">
 	<link href="style.css" rel="stylesheet">
 	<script src="app.js" type="text/javascript"></script>
 </head>
 
-<body id="nyssebody">
+<body>
 
 	<div class="header">
 
@@ -28,22 +28,26 @@
 		</div>
 
 	</div>
-
 	<div class="sivunhajotus">
 
-		<p>Get Nysse traffic from a particular stop:</p>
-		<input type="text" id="stop-input" placeholder="Stop name or ID here..."
-			class="inputfield"><br>
-		<input type="time" id="time-input"  class="inputfield" onload="timereplace()">
+		<p>Get VR tickets:</p>
+		<label for="departure">Origin</label>
+		<select name="departure" class="inputfield" id="selector1"></select><br>
+		<label for="arrival">Destination</label>
+		<select name="arrival" class="inputfield" id="selector2"></select><br>
+		<label for="passengertype">Passenger type</label>
+		<select name="passengertype" class="inputfield" id="selector3">
+			<option value="ADULT">Adult</option>
+			<option value="CHILD">Child</option>
+			<option value="STUDENT">Student</option>
+			<option value="CONSCRIPT">Conscript</option>
+			<option value="PENSIONER">Pensioner</option>
+		</select><br>
+		<input type="time" id="time-input" class="inputfield" onload="timereplace()">
 		<input type="date" id="date-input" class="inputfield" onload="timereplace()"><br>
-		<input type="text" id="line-input" placeholder="Limit lines (Comma separated)"
-			class="inputfield"><br>
-		<fieldset class="textbox">
-			<legend>Save query?</legend>
-			<input type="checkbox" id="cacheoption" name="cacheoption" checked>
-		</fieldset>
+		<input type="text" id="line-input" placeholder="Limit lines (Comma separated)" class="inputfield"><br>
 		<button
-			onclick="nyssestops(document.getElementById('stop-input').value, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)"
+			onclick="ticketsearch(document.getElementById('selector1').value, document.getElementById('selector2').value, document.getElementById('selector3').value, document.getElementById('time-input').value, document.getElementById('date-input').value, document.getElementById('line-input').value)"
 			value="submit" class="JSbutton">Submit</button>
 
 		<script type="text/javascript">
@@ -54,23 +58,10 @@
 			var d = new Date();
 			document.getElementById("time-input").value = addZero(d.getHours()) + ":" + addZero(d.getMinutes());
 			document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
-			let stopID = localStorage.getItem('stopQuery');
-			if (stopID != null) {
-				document.getElementById("stop-input").value = stopID;
-			}
-			let lineLimit = localStorage.getItem('lineLimit');
-			if (lineLimit != null) {
-				document.getElementById("line-input").value = lineLimit;
-			}
-			let cache = localStorage.getItem("cache");
-			if (cache != null) {
-				let cacheBool = (cache === 'true');
-				document.getElementById("cacheoption").checked = cacheBool;
-			}
 
+			trainstops()
 		</script>
 	</div>
-
 </body>
 
 </html>
