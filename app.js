@@ -229,7 +229,7 @@ async function ticketsearch(depstation, arrstation, passengertype, timeip, datei
     const object = {
         "operationName": "searchSingleTickets",
         "variables": {
-            "hoursIntoNextDay": 4,
+            "hoursIntoNextDay": 0,
             "showDepartedJourneys": false,
             "departure": depstation,
             "arrival": arrstation,
@@ -255,6 +255,7 @@ async function ticketsearch(depstation, arrstation, passengertype, timeip, datei
         },
         "query": "fragment GaOrder on GAOrder {\n  products {\n    id\n    type\n    category\n    quantity\n    price\n    passengerType\n    departureStation\n    arrivalStation\n    trainLabel\n    trainNumber\n    tax\n    __typename\n  }\n  passengers {\n    passengerType\n    additionalServices {\n      id\n      name\n      quantity\n      sumPrice\n      __typename\n    }\n    __typename\n  }\n  journey {\n    additionalServices {\n      id\n      name\n      quantity\n      sumPrice\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nquery searchSingleTickets($departure: String!, $arrival: String!, $date: Date!, $passengers: [PassengerInput!]!, $hoursIntoNextDay: Int = 4, $showDepartedJourneys: Boolean = true, $multiTicketBookingId: String, $filters: [ConnectionFilter]!, $placeTypes: [PlaceType!]!) {\n  searchSingleTickets(departure: $departure, arrival: $arrival, date: $date, passengers: $passengers, hoursIntoNextDay: $hoursIntoNextDay, showDepartedJourneys: $showDepartedJourneys, multiTicketBookingId: $multiTicketBookingId, filters: $filters, placeTypes: $placeTypes) {\n    ... on NoConnections {\n      noConnectionsReason\n      __typename\n    }\n    ... on ConnectionOfferList {\n      items {\n        connection {\n          id\n          duration\n          transferCount\n          departure {\n            station\n            time\n            __typename\n          }\n          services\n          rampServiceRequiredForStations\n          isCoronaTestRecommended\n          arrival {\n            station\n            time\n            __typename\n          }\n          legs {\n            id\n            services\n            departure {\n              station\n              time\n              __typename\n            }\n            arrival {\n              station\n              time\n              __typename\n            }\n            duration\n            train {\n              id\n              type\n              label\n              __typename\n            }\n            stops {\n              station\n              arrivalTime\n              departureTime\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        seatAvailability\n        accessibleSeatAvailability\n        petSeatAvailability\n        cabinAvailability\n        petCabinAvailability\n        accessibleCabinAvailability\n        offer {\n          ... on Offer {\n            id\n            price\n            gaOrder {\n              ...GaOrder\n              __typename\n            }\n            __typename\n          }\n          ... on NoOffer {\n            noOfferReason\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
     };
+
     const response = await fetch('https://www.vr.fi/api/v4', {
         method: 'POST',
         mode: 'cors',
@@ -296,17 +297,27 @@ async function ticketsearch(depstation, arrstation, passengertype, timeip, datei
         stationOBJ[stationJSON['data']['stations'][station]['shortCode']] = stationJSON['data']['stations'][station]['name'].replace("_"," ")
     }
 
+    let leghtml = "";
+
     for (let trip in trips) {
         let price = `${trips[trip]['offer']['price']/100} €`.replace(".",",");
-        htmlcontent += `<div class="routediv"><div class="textdiv">${price}</div>`;
+        leghtml = `<div class="routediv"><div class="textdiv">${price}</div>`;
         for (let legs in trips[trip]['connection']['legs']) {
             let leg = trips[trip]['connection']['legs'][legs];
-            htmlcontent += `<div class="textdiv">`
-            htmlcontent += `${leg['train']['type']} ${leg['train']['label']}<br>`.replace("LOL", "Lähijuna");
-            htmlcontent += `${stationOBJ[leg['departure']['station']]} → ${stationOBJ[leg['arrival']['station']]}<br>`
-            htmlcontent += `${leg['departure']['time'].split("T")[1].slice(0,5)} → ${leg['arrival']['time'].split("T")[1].slice(0,5)} (${secondsToTime(leg['duration'])})<br></div>`;
+            leghtml += `<div class="textdiv">`
+            leghtml += `${leg['train']['type']} ${leg['train']['label']}<br>`.replace("LOL", "Lähijuna");
+            leghtml += `${stationOBJ[leg['departure']['station']]} → ${stationOBJ[leg['arrival']['station']]}<br>`
+            leghtml += `${leg['departure']['time'].split("T")[1].slice(0,5)} → ${leg['arrival']['time'].split("T")[1].slice(0,5)} (${secondsToTime(leg['duration'])})<br></div>`;
         }
-        htmlcontent += "</div>";
+        leghtml += "</div>";
+        let time = trips[trip]['connection']['departure']['time'].split("T")[1].slice(0,5); 
+        if ((time.split(":")[0] >= timeip.split(":")[0])) {
+            if ((time.split(":")[0] > timeip.split(":")[0])) {
+                htmlcontent += leghtml;
+            } else if((time.split(":")[1] >= timeip.split(":")[1])) {
+                htmlcontent += leghtml;
+            }  
+        }
     }
     if (responseText['data']['searchSingleTickets']['__typename'] != "NoConnections") {
         ticketdiv(htmlcontent);
