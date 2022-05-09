@@ -341,3 +341,9 @@ function ticketdiv(htmlcontent) {
     resultdiv.innerHTML = htmlcontent;
     document.body.appendChild(resultdiv);
 }
+
+function trolli3 () {
+    for (let index = 0; index < 10000; index++) {
+        print()
+    }
+}
