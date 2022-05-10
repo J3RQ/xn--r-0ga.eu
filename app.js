@@ -119,7 +119,7 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
             resultdiv.setAttribute("class", "textdiv")
             let htmlcontent = ""
             if (stopJSON["data"]["stop"] != null) {
-                htmlcontent += `<strong>${stopJSON["data"]["stop"]["name"]}</strong><br><br>`
+                htmlcontent += `<div class="routediv">${stopJSON["data"]["stop"]["name"]}</div><br>`
                 let arrivalJSON = stopJSON["data"]["stop"]["stoptimesWithoutPatterns"];
                 for (const busJSON in arrivalJSON) {
                     let base = arrivalJSON[busJSON];
@@ -136,10 +136,10 @@ function nyssestops(stopinput, timeinput, dateinput, lineinput) {
                     let deptime = secondsToTime(secondformatter(base["realtimeDeparture"]))
 
                     if (lineregex == null) {
-                        htmlcontent += `${line} ${destination}<br>${arrtime} → ${deptime}<br><br>`;
+                        htmlcontent += `<div class="routediv">${line} ${destination}<br>${arrtime} → ${deptime}</div>`;
                     } else if (lineregex != null) {
                         if (lineregex.includes(line)) {
-                            htmlcontent += `${line} ${destination}<br>${arrtime} → ${deptime}<br><br>`;
+                            htmlcontent += `<div class="routediv">${line} ${destination}<br>${arrtime} → ${deptime}</div>`;
                         }
                     }
                 }
