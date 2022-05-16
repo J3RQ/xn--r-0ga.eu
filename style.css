@@ -320,3 +320,16 @@ body::-webkit-scrollbar-thumb {
   float: center;
   position: relative;
 }
+
+.mktext {
+  text-align: center;
+  color: #353535;
+  text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  margin-top: auto;
+}

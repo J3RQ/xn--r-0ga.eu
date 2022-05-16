@@ -278,11 +278,11 @@ async function ticketsearch(depstation, arrstation, passengertype, timeip, datei
           passengerTraffic
         }
     }`
-    
+
     const stations = await fetch('https://rata.digitraffic.fi/api/v2/graphql/graphql', {
         method: 'POST',
         mode: 'cors',
-        body: JSON.stringify({"query": stationrequest}),
+        body: JSON.stringify({ "query": stationrequest }),
         headers: {
             'Content-Type': 'application/json',
             'origin': 'https://xn--r-0ga.eu',
@@ -294,29 +294,29 @@ async function ticketsearch(depstation, arrstation, passengertype, timeip, datei
     const stationOBJ = {};
 
     for (let station in stationJSON['data']['stations']) {
-        stationOBJ[stationJSON['data']['stations'][station]['shortCode']] = stationJSON['data']['stations'][station]['name'].replace("_"," ")
+        stationOBJ[stationJSON['data']['stations'][station]['shortCode']] = stationJSON['data']['stations'][station]['name'].replace("_", " ")
     }
 
     let leghtml = "";
 
     for (let trip in trips) {
-        let price = `${trips[trip]['offer']['price']/100} €`.replace(".",",");
+        let price = `${trips[trip]['offer']['price'] / 100} €`.replace(".", ",");
         leghtml = `<div class="routediv"><div class="textdiv">${price}</div>`;
         for (let legs in trips[trip]['connection']['legs']) {
             let leg = trips[trip]['connection']['legs'][legs];
             leghtml += `<div class="textdiv">`
             leghtml += `${leg['train']['type']} ${leg['train']['label']}<br>`.replace("LOL", "Lähijuna");
             leghtml += `${stationOBJ[leg['departure']['station']]} → ${stationOBJ[leg['arrival']['station']]}<br>`
-            leghtml += `${leg['departure']['time'].split("T")[1].slice(0,5)} → ${leg['arrival']['time'].split("T")[1].slice(0,5)} (${secondsToTime(leg['duration'])})<br></div>`;
+            leghtml += `${leg['departure']['time'].split("T")[1].slice(0, 5)} → ${leg['arrival']['time'].split("T")[1].slice(0, 5)} (${secondsToTime(leg['duration'])})<br></div>`;
         }
         leghtml += "</div>";
-        let time = trips[trip]['connection']['departure']['time'].split("T")[1].slice(0,5); 
+        let time = trips[trip]['connection']['departure']['time'].split("T")[1].slice(0, 5);
         if ((time.split(":")[0] >= timeip.split(":")[0])) {
             if ((time.split(":")[0] > timeip.split(":")[0])) {
                 htmlcontent += leghtml;
-            } else if((time.split(":")[1] >= timeip.split(":")[1])) {
+            } else if ((time.split(":")[1] >= timeip.split(":")[1])) {
                 htmlcontent += leghtml;
-            }  
+            }
         }
     }
     if (responseText['data']['searchSingleTickets']['__typename'] != "NoConnections") {
@@ -325,7 +325,7 @@ async function ticketsearch(depstation, arrstation, passengertype, timeip, datei
         htmlcontent = "No connections found!"
         ticketdiv(htmlcontent)
     }
-    
+
 }
 
 function ticketdiv(htmlcontent) {
@@ -340,4 +340,17 @@ function ticketdiv(htmlcontent) {
 
     resultdiv.innerHTML = htmlcontent;
     document.body.appendChild(resultdiv);
+}
+
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+async function zoomer() {
+    for (let index = 16; index < 400; index++) {
+        await delay(1)
+        document.getElementById("mktext").style.fontSize = `${index}px`;
+    }
 }
