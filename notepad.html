@@ -1,17 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ör.eu</title>
+<title>Notepad</title>
 <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-<link href="style.css" type="text/css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 <script src="app.js" type="text/javascript"></script>
 <!--<link href="normalize.css" type="text/css" rel="stylesheet">-->
 <link href="mobile.css" type="text/css" rel="stylesheet" media="(max-width:768px)">
-
 </head>
-	
+
 <body>
 	
 	<div class="header">
@@ -19,33 +18,16 @@
 		<div class="sivut">
 			
 			<a href="index.html" class="sivu"><button class="bn632-hover bn25">Ör</button></a><a href="nysse.html" class="sivu"><button class="bn632-hover bn25">Nysse</button></a><a href="VR.html" class="sivu"><button class="bn632-hover bn25">VR</button></a><a href="notepad.html" class="sivu"><button class="bn632-hover bn25">Notepad</button></a>
-		
-		
-		
-		
-		
 		</div>
-	
 	</div>
-
-
-	<img src="img/tonninseteli.jpg" alt="Kuva kummelin tonnin seteli kohtauksesta" class="tseteli"/>
- 
-
-	<div class="textdiv">
-	
-		<p>ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ</p>
-	
-	
-	
+	<div class="notepad">
+		<div class="leftselector" id="leftselector">
+			<button class="answerButton" onclick="createNote()">New page</button>
+		</div>
+		<textarea spellcheck="false" class="noteinput" id="noteinput" oninput="saveNote()"></textarea>
+	<script>
+		loadNote()
+	</script>
 	</div>
-	
-	
-	
-	
-	
-	
-
-
 </body>
 </html>

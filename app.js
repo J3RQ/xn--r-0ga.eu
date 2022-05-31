@@ -354,3 +354,65 @@ async function zoomer() {
         document.getElementById("mktext").style.fontSize = `${index}px`;
     }
 }
+
+
+function getNotes() {
+    let noteamount;
+    let index = 1; 
+    while (true) {
+        if (localStorage.getItem(`note${index}`) != null) {
+            noteamount = index
+        } else if (localStorage.getItem(`note${index}`) == null){
+            break;
+        }
+        index++
+    }
+    return noteamount
+    
+}
+
+function createNote () {
+    let noteID = getNotes()
+    if (noteID == undefined) {
+        noteID = 0;
+    }
+    localStorage.setItem(`note${noteID+1}`, '');
+    localStorage.setItem('lastNote',`note${noteID+1}`)
+    document.getElementById("noteinput").value = ""
+
+    var selectorElement = document.getElementById("leftselector");
+    selectorElement.innerHTML += `<div class="noteselector" id="note${noteID+1}" onclick="getNote('note${noteID+1}')"><p></p></div>`
+}
+
+function loadNote() {
+    if (localStorage.getItem("lastNote") == undefined) {
+        localStorage.setItem("lastNote", "note1")
+        localStorage.setItem("note1", "")
+    }
+    let savedNote = localStorage.getItem(`lastNote`)
+    document.getElementById("noteinput").value = localStorage.getItem(savedNote);
+
+    var selectorElement = document.getElementById("leftselector");
+    let htmlcontent = ""; 
+
+    for (let index = 1; index < localStorage.length; index++) {
+        let note = localStorage.getItem(`note${index}`)
+        htmlcontent += `<div class="noteselector" id="note${index}" onclick="getNote('note${index}')"><p>${note}</p></div>`;
+    }
+    selectorElement.innerHTML += htmlcontent
+}
+
+function saveNote() {
+    if (localStorage.getItem("lastNote") == undefined) {
+        localStorage.setItem("lastNote", "note1")
+        localStorage.setItem("note1", "")
+    }
+    let noteValue = document.getElementById("noteinput").value
+    localStorage.setItem(localStorage.getItem(`lastNote`), noteValue)
+
+}
+
+function getNote(openNote) {
+    document.getElementById("noteinput").value = localStorage.getItem(openNote)
+    localStorage.setItem("lastNote", openNote)
+}
