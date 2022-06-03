@@ -397,7 +397,9 @@ function loadNote() {
 
     for (let index = 1; index < localStorage.length; index++) {
         let note = localStorage.getItem(`note${index}`)
-        htmlcontent += `<div class="noteselector" id="note${index}" onclick="getNote('note${index}')"><p>${note}</p></div>`;
+        if (note != undefined) {
+            htmlcontent += `<div class="noteselector" id="note${index}" onclick="getNote('note${index}')"><p>${note.slice(0, 20)}</p></div>`;
+        }
     }
     selectorElement.innerHTML += htmlcontent
 }
@@ -409,7 +411,7 @@ function saveNote() {
     }
     let noteValue = document.getElementById("noteinput").value
     localStorage.setItem(localStorage.getItem(`lastNote`), noteValue)
-
+    document.getElementById(localStorage.getItem(`lastNote`)).textContent = noteValue.slice(0, 20)
 }
 
 function getNote(openNote) {
